@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/rps-sim/static/css/main.073c9b0a.css",
-    "main.js": "/rps-sim/static/js/main.bc68051f.js",
+    "main.css": "/rps-sim/static/css/main.6ccd65a8.css",
+    "main.js": "/rps-sim/static/js/main.009b1040.js",
     "static/js/787.25971684.chunk.js": "/rps-sim/static/js/787.25971684.chunk.js",
-    "static/media/logo.svg": "/rps-sim/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/rps-sim/index.html",
-    "main.073c9b0a.css.map": "/rps-sim/static/css/main.073c9b0a.css.map",
-    "main.bc68051f.js.map": "/rps-sim/static/js/main.bc68051f.js.map",
+    "main.6ccd65a8.css.map": "/rps-sim/static/css/main.6ccd65a8.css.map",
+    "main.009b1040.js.map": "/rps-sim/static/js/main.009b1040.js.map",
     "787.25971684.chunk.js.map": "/rps-sim/static/js/787.25971684.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.bc68051f.js"
+    "static/css/main.6ccd65a8.css",
+    "static/js/main.009b1040.js"
   ]
 }
