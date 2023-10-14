@@ -35,7 +35,7 @@ class Member {
     // Ensure the speed does not exceed maxSpeed
     dynamicSpeed = Math.min(dynamicSpeed, this.faction.maxSpeed);
 
-    if (distance < 5) {  // "Touch" threshold
+    if (distance < target.faction.size) {  // "Touch" threshold
       this.faction.addMember(target);
       target.faction.removeMember(target);
       target.faction = this.faction;
@@ -56,8 +56,9 @@ class Member {
 
 // Faction class holding its members
 class Faction {
-  constructor(speed, maxSpeed, viewRange, color, numMembers, imageOrEmoji) {
+  constructor(size, speed, maxSpeed, viewRange, color, numMembers, imageOrEmoji) {
     // Initialize properties
+    this.size = size;
     this.speed = speed;
     this.maxSpeed = maxSpeed;
     this.viewRange = viewRange;
@@ -148,6 +149,7 @@ const App = () => {
     const initialFactions = Array.from({ length: numFactions }, (_, i) => {
       const imageOrEmoji = factionImagesOrEmojis[i] || getEmojiByFactionIndex(i);
       return new Faction(
+        size,
         speed,
         maxSpeed,
         viewRange,
