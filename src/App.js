@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {Form, Button, FloatingLabel, InputGroup} from 'react-bootstrap';
+import {Form, FloatingLabel, InputGroup} from 'react-bootstrap';
 import Sidebar from './sidebar';
+import { useMediaQuery } from 'react-responsive';
 
 // Member class with x, y coordinates and belonging faction
 class Member {
@@ -74,7 +75,10 @@ class Faction {
       // Determine next target faction, by also considering the Last One Standing Mode mode.
       let nextFaction = targetFaction;
 
-      if (isLastOneStandingMode && targetFaction.members.length === 0 && this.lastChased !== targetFaction) {
+      if (allFactions.length > 3 &&
+          isLastOneStandingMode &&
+          targetFaction.members.length === 0 &&
+          this.lastChased !== targetFaction) {
         const targetIndex = allFactions.indexOf(targetFaction);
         for (let i = 1; i < allFactions.length; i++) {
           const nextIndex = (targetIndex + i) % allFactions.length;
@@ -123,6 +127,7 @@ class Faction {
 }
 
 const App = () => {
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
   // State variables
   const [numFactions, setNumFactions] = useState(3);
   const [numMembers, setNumMembers] = useState(30);
@@ -131,14 +136,10 @@ const App = () => {
   const [tick, setTick] = useState(0);
   const [factionImagesOrEmojis, setFactionImagesOrEmojis] = useState(Array(numFactions).fill(null));
   const [isLastOneStandingMode, setIsLastOneStandingMode] = useState(false);
-  const [speed, setSpeed] = useState(1);
-  const [maxSpeed, setMaxSpeed] = useState(3);
-  const [viewRange, setViewRange] = useState(300);
-  const [size, setSize] = useState(20);
-
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [show, setShow] = useState(false);
-  const [triggerSidebar, setTriggerSidebar] = useState(false);
+  const [speed, setSpeed] = useState(isSmallScreen ? 0.5 : 1);
+  const [maxSpeed, setMaxSpeed] = useState(isSmallScreen ? 1 : 3);
+  const [viewRange, setViewRange] = useState(isSmallScreen ? 80 : 300);
+  const [size, setSize] = useState(isSmallScreen ? 15 : 20);
 
   // Initialize factions
   const initializeFactions = () => {
@@ -164,10 +165,6 @@ const App = () => {
   useEffect(() => {
     let interval;
 
-    if (isPaused === "pauseAndShowSidebar") {
-      setShow((s) => !s);
-    }
-
     if (!isPaused) {
       interval = setInterval(() => {
         factions.forEach((faction, i) => {
@@ -180,7 +177,7 @@ const App = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isPaused, factions, isLastOneStandingMode, triggerSidebar]);
+  }, [isPaused, factions, isLastOneStandingMode]);
 
   // Set default emoji for the first three factions.
   const getEmojiByFactionIndex = (index) => {
@@ -285,7 +282,7 @@ const App = () => {
             {isPaused ? 'Resume' : 'Pause'}
           </button>
           <button onClick={() => setIsLastOneStandingMode(!isLastOneStandingMode)}>
-            {isLastOneStandingMode ? 'Disable Last One Standing Mode' : 'Enable Last One Standing Mode'}
+            {isLastOneStandingMode ? 'Disable Last 1 Standing mode' : 'Enable Last 1 Standing mode'}
           </button>
           <button onClick={initializeFactions}>
             Restart
