@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/rps-sim/static/css/main.9b694117.css",
-    "main.js": "/rps-sim/static/js/main.2c97b4f9.js",
+    "main.css": "/rps-sim/static/css/main.bda2ffa0.css",
+    "main.js": "/rps-sim/static/js/main.e9cec01f.js",
     "static/js/787.25971684.chunk.js": "/rps-sim/static/js/787.25971684.chunk.js",
     "index.html": "/rps-sim/index.html",
-    "main.9b694117.css.map": "/rps-sim/static/css/main.9b694117.css.map",
-    "main.2c97b4f9.js.map": "/rps-sim/static/js/main.2c97b4f9.js.map",
+    "main.bda2ffa0.css.map": "/rps-sim/static/css/main.bda2ffa0.css.map",
+    "main.e9cec01f.js.map": "/rps-sim/static/js/main.e9cec01f.js.map",
     "787.25971684.chunk.js.map": "/rps-sim/static/js/787.25971684.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9b694117.css",
-    "static/js/main.2c97b4f9.js"
+    "static/css/main.bda2ffa0.css",
+    "static/js/main.e9cec01f.js"
   ]
 }
