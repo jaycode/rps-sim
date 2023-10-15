@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import {Form, Button, FloatingLabel, InputGroup} from 'react-bootstrap';
+import Sidebar from './sidebar';
 
 // Member class with x, y coordinates and belonging faction
 class Member {
@@ -219,123 +215,89 @@ const App = () => {
     );
   };
 
-  function Sidebar() {
-    const handleClose = () => setShow(false);
-    return (
-      <>
-        <Offcanvas show={show} onHide={handleClose} scroll={true} backdrop={true}>
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Options</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Form>
-              <label>
-                Number of Factions:
-                <input type="number" value={numFactions} onChange={e => setNumFactions(Number(e.target.value))} />
-              </label>
-              <label>
-                Members per Faction:
-                <input type="number" value={numMembers} onChange={e => setNumMembers(Number(e.target.value))} />
-              </label>
-              <label>
-                Speed:
-                <input type="number" value={speed} onChange={e => setSpeed(Number(e.target.value))} />
-              </label>
-              <label>
-                Max Speed:
-                <input
-                  type="number"
-                  value={maxSpeed}
-                  onChange={e => setMaxSpeed(Number(e.target.value))} />
-              </label>
-
-              <label>
-                View Range:
-                <input
-                  type="number"
-                  value={viewRange}
-                  onChange={e => setViewRange(Number(e.target.value))} />
-              </label>
-              {Array.from({ length: numFactions }).map((_, i) => (
-                <div key={i}>
-                  <label>
-                    Faction {i + 1} Image:
-                    <input type="file" onChange={(e) => {
-                      const file = e.target.files[0];
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        const newImagesOrEmojis = [...factionImagesOrEmojis];
-                        newImagesOrEmojis[i] = reader.result;
-                        setFactionImagesOrEmojis(newImagesOrEmojis);
-                      };
-                      reader.readAsDataURL(file);
-                    }} />
-                  </label>
-                  <label>
-                    or Emoji:
-                    <input type="text" onChange={(e) => {
-                      const newImagesOrEmojis = [...factionImagesOrEmojis];
-                      newImagesOrEmojis[i] = e.target.value;
-                      setFactionImagesOrEmojis(newImagesOrEmojis);
-                    }} />
-                  </label>
-                </div>
-              ))}
-            </Form>
-          </Offcanvas.Body>
-        </Offcanvas>
-      </>
-    );
-  }
-
-  const showSidebar = () => {
-    setIsPaused('pauseAndShowSidebar');
-    setTriggerSidebar(!triggerSidebar);
-  };
-
   return (
-    <Container fluid>
-      <Row>
-        {/* Sidebar */}
-        <Col>
-          <button onClick={showSidebar}>
-            ☰
+    <div className="main-container">
+      <Sidebar>
+        <h2>RPS-Sim</h2>
+        <Form data-bs-theme="dark">
+          <FloatingLabel
+            className="mb-2"
+            label="Number of Factions:">
+            <Form.Control size="sm" type="number" value={numFactions} onChange={e => setNumFactions(Number(e.target.value))} />
+          </FloatingLabel>
+          <FloatingLabel
+            className="mb-2"
+            label="Members per Faction:">
+            <Form.Control size="sm" type="number" value={numMembers} onChange={e => setNumMembers(Number(e.target.value))} />
+          </FloatingLabel>
+          <InputGroup size="sm" className="mb-2">
+            <InputGroup.Text>Speed</InputGroup.Text>
+            <Form.Control type="number" value={speed} onChange={e => setSpeed(Number(e.target.value))} />
+          </InputGroup>
+          <InputGroup size="sm" className="mb-2">
+            <InputGroup.Text>Max Speed</InputGroup.Text>
+            <Form.Control
+                type="number"
+                value={maxSpeed}
+                onChange={e => setMaxSpeed(Number(e.target.value))} />
+          </InputGroup>
+          <InputGroup size="sm" className="mb-2">
+            <InputGroup.Text>View Range</InputGroup.Text>
+            <Form.Control
+              type="number"
+              value={viewRange}
+              onChange={e => setViewRange(Number(e.target.value))} />
+          </InputGroup>
+          <InputGroup size="sm" className="mb-2">
+            <InputGroup.Text>Size</InputGroup.Text>
+            <Form.Control type="number" value={size} onChange={e => setSize(Number(e.target.value))} />
+          </InputGroup>
+          {Array.from({ length: numFactions }).map((_, i) => (
+            <Form.Group key={i}>
+              <Form.Label>Faction {i + 1} Image/Emoji:</Form.Label>
+              <Form.Control size="sm" type="file" onChange={(e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  const newImagesOrEmojis = [...factionImagesOrEmojis];
+                  newImagesOrEmojis[i] = reader.result;
+                  setFactionImagesOrEmojis(newImagesOrEmojis);
+                };
+                reader.readAsDataURL(file);
+              }} />
+              <InputGroup size="sm" className="mb-2">
+                <InputGroup.Text>or Emoji</InputGroup.Text>
+                <Form.Control type="text" onChange={(e) => {
+                  const newImagesOrEmojis = [...factionImagesOrEmojis];
+                  newImagesOrEmojis[i] = e.target.value;
+                  setFactionImagesOrEmojis(newImagesOrEmojis);
+                }} />
+              </InputGroup>
+            </Form.Group>
+          ))}
+        </Form>
+      </Sidebar>
+      {/* Main Content */}
+      <div className="main-content">
+        <div className="buttons-area">
+          {/* React Bootstrap Toggle Buttons */}
+          <button onClick={() => setIsPaused(!isPaused)}>
+            {isPaused ? 'Resume' : 'Pause'}
           </button>
-          <Sidebar />
-        </Col>
-        {/* Main Content */}
-        <Col>
-          <Row>
-            {/* React Bootstrap Toggle Buttons */}
-            <button onClick={() => setIsPaused(!isPaused)}>
-              {isPaused ? 'Resume' : 'Pause'}
-            </button>
-            <button onClick={() => setIsLastOneStandingMode(!isLastOneStandingMode)}>
-              {isLastOneStandingMode ? 'Disable Last One Standing Mode' : 'Enable Last One Standing Mode'}
-            </button>
-            <button onClick={initializeFactions}>
-              Restart
-            </button>
-          </Row>
-          <Row>
-            <div
-              style={{
-                height: '100vh',
-                width: '100vw',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              {factions.map((faction, factionIndex) =>
-                faction.members.map((member, i) =>
-                  renderMember(faction, factionIndex, member, i)
-                )
-              )}
-            </div>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+          <button onClick={() => setIsLastOneStandingMode(!isLastOneStandingMode)}>
+            {isLastOneStandingMode ? 'Disable Last One Standing Mode' : 'Enable Last One Standing Mode'}
+          </button>
+          <button onClick={initializeFactions}>
+            Restart
+          </button>
+        </div>
+        {factions.map((faction, factionIndex) =>
+          faction.members.map((member, i) =>
+            renderMember(faction, factionIndex, member, i)
+          )
+        )}
+      </div>
+    </div>
   );
 };
 
